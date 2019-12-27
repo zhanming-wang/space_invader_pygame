@@ -68,7 +68,17 @@ bulletX_change = 0
 bulletY_change = 20
 bullet_state = "ready"
 
-score = 0
+# Score TEXT
+textX = 10
+textY = 10
+
+SCORE = 0
+font = pygame.font.Font('freesansbold.ttf', 32)
+
+
+def show_score(x, y, score):
+    score = font.render("Score: " + str(score), True, (255, 255, 255))
+    screen.blit(score, (x, y))
 
 
 def player(x, y):
@@ -142,17 +152,17 @@ while running:
 
         # Collision detection
         enemy_collision = isCollision(orangeX[i], orangeY[i],
-                                bulletX, bulletY)  # Return True or False
+                                      bulletX, bulletY)  # Return True or False
         if enemy_collision:
             bulletY = 480  # reset the bullet location
             bullet_state = "ready"  # reset bullet state
-            score += 1
-            print(score)
+            SCORE += 1
+            print(SCORE)
             orangeX[i] = random.randint(0, 730)  # orange randomly appear on screen
             orangeY[i] = random.randint(0, 200)
         enemyOrange(orangeX[i], orangeY[i], i)
 
-    #friendly movement
+    # friendly movement
     for i in range(num_of_friendly):
         friendlyX[i] += friendlyX_change[i]
 
@@ -165,7 +175,7 @@ while running:
 
         # Collision detection
         friendly_collision = isCollision(friendlyX[i], friendlyY[i],
-                                bulletX, bulletY)  # Return True or False
+                                         bulletX, bulletY)  # Return True or False
         if friendly_collision:  # GAME OVER
             for l in range(num_of_friendly):
                 friendlyY[l] = 5000
@@ -183,5 +193,5 @@ while running:
         bulletY -= bulletY_change
 
     player(playerX, playerY)
-
+    show_score(textX, textY, SCORE)
     pygame.display.update()
