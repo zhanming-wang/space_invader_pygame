@@ -74,6 +74,11 @@ textY = 10
 
 SCORE = 0
 font = pygame.font.Font('freesansbold.ttf', 32)
+overfont = pygame.font.Font('freesansbold.ttf', 64)
+
+def game_over_text():
+    game_over = overfont.render("GAME OVER", True, (255, 255, 255))
+    screen.blit(game_over, (200, 250))
 
 
 def show_score(x, y, score):
@@ -141,6 +146,16 @@ while running:
 
     # Orange movement
     for i in range(num_of_enemies):
+
+        # Game Over
+        if orangeY[i] > 440:
+            for j in range(num_of_enemies):
+                orangeY[j] = 2000
+            for o in range(num_of_friendly):
+                friendlyY[o] = 2000
+            game_over_text()
+            break
+
         orangeX[i] += orangeX_change[i]
 
         if orangeX[i] < 0:
@@ -162,6 +177,7 @@ while running:
             orangeY[i] = random.randint(0, 200)
         enemyOrange(orangeX[i], orangeY[i], i)
 
+
     # friendly movement
     for i in range(num_of_friendly):
         friendlyX[i] += friendlyX_change[i]
@@ -181,6 +197,7 @@ while running:
                 friendlyY[l] = 5000
             for p in range(num_of_enemies):
                 orangeY[p] = 5000
+            game_over_text()
             break
         friendly(orangeX[i], orangeY[i], i)
 
